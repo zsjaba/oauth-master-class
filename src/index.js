@@ -2,7 +2,7 @@ window.onload = () => {
   document.getElementById("button").onclick = () => {
     window.YaAuthSuggest.init(
       {
-        client_id: "c46f0c53093440c39f12eff95a9f2f93",
+        client_id: "30c2b9a780ad44c082377fc215290f78",
         response_type: "token",
         redirect_uri: "https://examplesite.com/suggest/token",
       },
