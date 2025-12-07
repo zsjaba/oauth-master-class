@@ -4,9 +4,9 @@ window.onload = () => {
       {
         client_id: "181bd7ef97344604a13647be61dfc071",
         response_type: "token",
-        redirect_uri: "https://oauth-master-classdasnk.vercel.app/token.html",
+        redirect_uri: "https://oauth-master-class-lilac.vercel.app/token.html",
       },
-      "https://oauth-master-classdasnk.vercel.app/token.html",
+      "https://oauth-master-class-lilac.vercel.app/token.html",
       {
         view: "button",
         parentId: "buttonContainer",
