@@ -1,17 +1,48 @@
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Oauth</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js"></script>
-    <link rel="stylesheet" href="index.css" />
-    <script type="module" src="index.js"></script>
-  </head>
-  <body>
-    <div class="buttons">
-      <button id="button">Тыкни меня</button>
-    </div>
-    <div class="buttonContainer" id="buttonContainer"></div>
-    <div id="logs"></div>
-  </body>
-</html>
+window.onload = () => {
+  console.log('Страница загружена');
+  
+  // Проверяем, есть ли сохранённый токен
+  const savedToken = localStorage.getItem('yandex_token');
+  if (savedToken) {
+    console.log('Найден сохранённый токен:', savedToken.substring(0, 20) + '...');
+    document.getElementById('logs').innerHTML = 
+      `<p>Вы уже авторизованы! Токен сохранён.</p>`;
+  }
+  
+  // Обработчик кнопки "Тыкни меня"
+  document.getElementById("button").onclick = () => {
+    console.log('Кнопка нажата, инициализация YaAuthSuggest...');
+    
+    window.YaAuthSuggest.init(
+      {
+        client_id: "181bd7ef97344604a13647be61dfc071",
+        response_type: "token",
+        redirect_uri: "https://oauth-master-class-lilac.vercel.app/token.html",
+      },
+      "https://oauth-master-class-lilac.vercel.app/token.html",
+      {
+        view: "button",
+        parentId: "buttonContainer",
+        buttonSize: "m",
+        buttonView: "main",
+        buttonTheme: "light",
+        buttonBorderRadius: "0",
+        buttonIcon: "ya",
+      }
+    )
+      .then(({ handler }) => {
+        console.log('YaAuthSuggest инициализирован, запускаем handler...');
+        return handler();
+      })
+      .then((data) => {
+        console.log("Токен получен через SDK:", data);
+        document.getElementById('logs').innerHTML = 
+          `<p>Токен получен! Проверьте консоль (F12) для просмотра.</p>`;
+      })
+      .catch((error) => {
+        console.log("Ошибка:", error);
+        document.getElementById('logs').innerHTML = 
+          `<p style="color: red;">Ошибка: ${error.message || error}</p>`;
+      });
+  };
+};
