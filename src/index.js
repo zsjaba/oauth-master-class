@@ -1,4 +1,11 @@
 window.onload = () => {
+  // Проверяем, есть ли уже сохранённый токен
+  const savedToken = localStorage.getItem('yandex_token');
+  if (savedToken) {
+    console.log('Найден сохранённый токен:', savedToken.substring(0, 20) + '...');
+    // Здесь можно авторизовать пользователя
+  }
+  
   document.getElementById("button").onclick = () => {
     window.YaAuthSuggest.init(
       {
@@ -6,7 +13,7 @@ window.onload = () => {
         response_type: "token",
         redirect_uri: "https://oauth-master-class-lilac.vercel.app/token.html",
       },
-      "https://oauth-master-class-lilac.vercel.app",
+      "https://oauth-master-class-lilac.vercel.app/token.html",
       {
         view: "button",
         parentId: "buttonContainer",
@@ -18,7 +25,10 @@ window.onload = () => {
       }
     )
       .then(({ handler }) => handler())
-      .then((data) => console.log("Сообщение с токеном", data))
-      .catch((error) => console.log("Обработка ошибки", error));
+      .then((data) => {
+        console.log("Токен получен через SDK:", data);
+        // Токен уже будет обработан на token.html
+      })
+      .catch((error) => console.log("Ошибка:", error));
   };
 };
